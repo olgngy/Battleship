@@ -40,7 +40,7 @@ td {
   height: 30px;
 }
 td.ship {
-  background-color: #326699;
+  background-color: #32669a;
 }
 .opponent td {
   border-color: #222;
@@ -52,7 +52,7 @@ td.water {
   background-color: #fff;
 }
 td.miss {
-  background-color: #8c1919;
+  background-color: #8b1818;
 }
 td.hit {
   background-color: #008040;
@@ -82,7 +82,7 @@ td.sunk {
   background-color: #fff;
 }
 .reference div.miss::before {
-  background-color: #8c1919;
+  background-color: #8b1818;
 }
 .reference div.hit::before {
   background-color: #008040;
@@ -91,7 +91,7 @@ td.sunk {
   background-color: #004080;
 }
 .reference div.ship::before {
-  background-color: #326699;
+  background-color: #32669a;
 }
 .reference div:last-child {
   padding-right: 0px;

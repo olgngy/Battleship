@@ -1,4 +1,5 @@
 import React from 'react';
+import {MISS, SHIP, HIT, SUNK} from './Constants';
 
 function Cell(props) {
   return (
@@ -9,13 +10,13 @@ function Cell(props) {
 
 function getType(value) {
   switch(value) {
-    case 1:
+    case SHIP:
       return 'ship';
-    case 2:
+    case MISS:
       return 'miss';
-    case 3:
+    case HIT:
       return 'hit';
-    case 4:
+    case SUNK:
       return 'sunk';
     default:
       return 'water';

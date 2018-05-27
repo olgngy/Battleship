@@ -9,7 +9,6 @@ const io = socketIO(server);
 
 let queue = [];    // list of sockets waiting for peers
 let rooms = {};    // map socket.id => room
-let allUsers = {}; // map socket.id => socket
 
 function findPeerForLoneSocket(socket) {
   if (queue.length) {
@@ -27,37 +26,35 @@ function findPeerForLoneSocket(socket) {
   }
 }
 
-function getPeerID(room, socketID) {
-  let peerID = room.split('#');
-  return peerID[0] === socketID ? peerID[1] : peerID[0];
+function getPeer(room, socket) {
+  let peer = room.split('#');
+  return peer[0] === socket ? peer[1] : peer[0];
 }
 
 io.on('connection', (socket) => {
   console.log('User ' + socket.id + ' connected');
-  socket.on('bla bla', () => {
-    console.log("Bla bla bla");
-  });
   socket.on('add player', () => {
-    allUsers[socket.id] = socket;
     findPeerForLoneSocket(socket);
   });
-  socket.on('send hit', (data) => {
+  socket.on('send hit', (x, y) => {
     let room = rooms[socket.id];
-    let peerID = getPeerID(room, socket.id);
-    peerID.emit('check hit', data);
+    let peer = getPeer(room, socket.id);
+    socket.broadcast.to(peer).emit('check hit', x, y);
   });
-  socket.on('send result', (data) => {
+  socket.on('send result', (points) => {
     let room = rooms[socket.id];
-    let peerID = getPeerID(room, socket.id);
-    peerID.emit('hit result', data);
+    let peer = getPeer(room, socket.id);
+    socket.broadcast.to(peer).emit('hit result', points,);
   });
   socket.on('disconnect', () => {
     console.log('User ' + socket.id + ' disconnected');
     let room = rooms[socket.id];
     if (room !== undefined) {
       socket.leave(room);
-      let peerID = getPeerID(room, socket.id);
-      findPeerForLoneSocket(allUsers[peerID]);
+      let peer = getPeer(room, socket.id);
+      // send disconnect message
+      // queue.push(peer);
+      // delete room
     }
   });
 });
